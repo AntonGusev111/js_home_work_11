@@ -1,19 +1,16 @@
 function prBar(){
-  const button = document.getElementById('send');
-
-  button.addEventListener('click', ()=>{
-    let file = document.getElementsByClassName('input__wrapper input__wrapper-desc')[0]['outerText']
-    if (file != 'Имя файла...'){
-      const xhr = new XMLHttpRequest()
-      xhr.addEventListener('readystatechange', ()=>{
-        console.log(xhr.readyState)
-      })
-      xhr.open('POST','https://netology-slow-rest.herokuapp.com/upload.php')
-      xhr.send(file)
-    }
+  const progress = document.getElementById( 'progress' );
+  document.forms.form.addEventListener('submit', (e) => {
+      e.preventDefault()
+      const xhr = new XMLHttpRequest();
+      xhr.upload.onprogress = function(event) {       
+        progress.value = event.loaded/event.total;
+      };
+      xhr.open('POST', 'https://netology-slow-rest.herokuapp.com/upload.php')
+      const formData = new FormData(document.forms.form)
+      xhr.send(formData)
   })
     
 }
- // Прошу объяснить, почему при нажатии на кнопку "отправить"Б на странцу начинает выгружаться большое количество текста. 
- // Так же прошу подробно объяснить как выполнить данное задание, а именно ту часть, где необходимо произвести загрузку файла и получать результат загрузки/
+
 prBar()
